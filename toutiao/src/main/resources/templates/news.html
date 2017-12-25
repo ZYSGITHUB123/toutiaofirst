@@ -1,0 +1,42 @@
+<html>
+<body>
+<pre>
+hello html.
+    value1：$!{value1}   ##value1传入要想传入，必须带有！  注意双#为注释  长注释为#* *#
+              $value1    ##作用相同与上
+
+    #foreach ($color in $colors)      ##这里是模板语言遍历,模板语言可以看官方文档，pdf里有
+       Color $!{foreach.index}/$!{foreach.count}:$!{color}
+    #end
+
+    #foreach($key in $map.keySet())
+    Number $!{foreach.index}/$!{foreach.count}:$key $map.get($key)
+    #end
+    #foreach($kv in $map.entrySet())
+    Number $!{foreach.index}/$!{foreach.count}:$kv.key $kv.value
+    #end
+
+    User:$user.name
+    User:$user.getName()                  ## $+传入与$!{传入}功能相同
+
+    #set($title="nowcoder")                  ##凡是语法开头的都用#
+    Include: #include("header.html") <br>   ##只是单纯的把别的模板引进来，不会改动
+    Parse: #parse("header.html")             ##引进的同时替换一点自己需要改的内容
+
+    #macro(render_color,$color,$index)       ##用macro自定义函数render
+       Color by Macro $index,$color
+    #end
+    #foreach($color in $colors)             ##这里foreach调用自定义函数
+     #render_color($color,$foreach.index)
+    #end
+
+    #set($hello="hello")
+    #set($hworld1="$hello world")      ##只有双引号才会解析
+    #set($hworld2='$hello world')      ##单引号不会解析
+    hworld:$hworld1
+    hworld:$hworld2
+    $colors.size()    ##color方法的调用，单纯测试
+
+</pre>
+</body>
+</html>
