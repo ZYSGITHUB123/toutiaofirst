@@ -5,3 +5,4 @@
         <class>org.apache.velocity.tools.generic.DateTool</class>
     </tool>
 </toolbox>
+        <!--//velocity自带的时间转换工具-->
