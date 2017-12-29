@@ -21,3 +21,14 @@ create table `news`(
   `user_id` int(11) not null,
   PRIMARY KEY (`id`)
 )ENGINE =InnoDB DEFAULT  CHARSET =utf8;
+
+drop table if exists `login_ticket`;
+create table `login_ticket`(
+  `id` int not null AUTO_INCREMENT,
+  `user_id` int not null,
+  `ticket` varchar(45) not null,
+  `expired` datetime not null,
+  `status`   int  null default 0,
+  primary key (`id`),
+  unique index `ticket_UNIQUE` (`ticket` asc )
+)ENGINE =InnoDB DEFAULT  CHARSET =utf8;

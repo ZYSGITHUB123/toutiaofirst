@@ -1,5 +1,6 @@
 package com.nowcoder.controller;
 
+import com.nowcoder.model.HostHolder;
 import com.nowcoder.model.News;
 import com.nowcoder.model.ViewObject;
 import com.nowcoder.service.NewsService;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ public class HomeController {
     NewsService newsService;
     @Autowired
     UserService userService;
+
+    @Autowired
+    HostHolder hostHolder;//放在上下文，将保存下来的用户
     private List<ViewObject> getNews(int userId,int offset,int limit){
         List<News> newsList=newsService.getLatestNews(userId,offset,limit);
 
@@ -51,7 +56,8 @@ public class HomeController {
 
 }
     @RequestMapping(path={"/user/{userId}"},method = {RequestMethod.GET,RequestMethod.POST})
-    public String userindex(Model model, @PathVariable("userId") int userId){
+    public String userindex(Model model, @PathVariable("userId") int userId,
+                            @RequestParam(value = "pop",defaultValue ="0") int pop){
 //        List<News> newsList=newsService.getLatestNews(0,0,10);  //传进来十个，但是一条资讯要对应一个用户
 //
 //        List<ViewObject> vos=new ArrayList<>();
@@ -62,7 +68,7 @@ public class HomeController {
 //            vos.add(vo);
 //        }                           //通过viewobject方便的把news和user放进去
         model.addAttribute("vos",getNews(userId,0,10));       //具体到某个用户的页面
-
+         model.addAttribute("pop",pop);
         return "home";                //返回一个home模板
     }
 }

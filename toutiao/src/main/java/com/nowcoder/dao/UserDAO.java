@@ -1,7 +1,7 @@
 package com.nowcoder.dao;
 
-import com.nowcoder.model.User;
-import org.apache.ibatis.annotations.*;
+        import com.nowcoder.model.User;
+        import org.apache.ibatis.annotations.*;
 
 @Mapper                 //一种注解方式的与数据库的交互
 public interface UserDAO {
@@ -13,6 +13,8 @@ public interface UserDAO {
 
     @Select({"select",SELECT_FIELDS,"from",TABLE_NAME,"where id=#{id}"})
     User selectById(int id);       //因为选出来的是一整个用户，返回一个用户
+    @Select({"select",SELECT_FIELDS,"from",TABLE_NAME,"where name=#{name}"})
+    User selectByName(String name);       //因为选出来的是一整个用户，返回一个用户
 
     @Update({"update",TABLE_NAME,"set password=#{password} where id=#{id}"})
     void updatePassword(User user);
