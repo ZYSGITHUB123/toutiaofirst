@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-//这里是一个拦截器，主要用来判断ticket以及后续对ticket的处理
+
 @Component
 public class LoginRequiredInterceptor implements HandlerInterceptor{
     public LoginRequiredInterceptor() {
@@ -36,12 +36,12 @@ public class LoginRequiredInterceptor implements HandlerInterceptor{
 
        return true;
 
-    }     //进入处理器之前拦下来看看ticket是否是存在的以及是否过期等等 ，并把这个用户存起来
+    }
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
-    }     //渲染以前做的事.处理器中
+    }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {

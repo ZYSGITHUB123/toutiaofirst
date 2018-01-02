@@ -20,7 +20,7 @@ create table `news`(
   `created_date` datetime not null,
   `user_id` int(11) not null,
   PRIMARY KEY (`id`)
-)ENGINE =InnoDB DEFAULT  CHARSET =utf8;
+)ENGINE =InnoDB  DEFAULT  CHARSET =utf8;
 
 drop table if exists `login_ticket`;
 create table `login_ticket`(
