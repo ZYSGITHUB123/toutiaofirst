@@ -25,6 +25,9 @@ public class NewsService {
         newsDAO.addNews(news);
         return news.getId();
     }
+    public News getById(int newsId) {
+        return newsDAO.getById(newsId);
+    }
 public String saveImage(MultipartFile file) throws IOException {
         int dotPos=file.getOriginalFilename().lastIndexOf(".");
         if(dotPos<0){
@@ -38,5 +41,8 @@ public String saveImage(MultipartFile file) throws IOException {
         Files.copy(file.getInputStream(),new File(ToutiaoUtil.IMAGE_DIR+fileName).toPath(), StandardCopyOption.REPLACE_EXISTING);
         return ToutiaoUtil.IMAGE_DOMAIN+"image?name"+fileName;      //返回的链接是给前端用的
 }
+    public int updateCommentCount(int id, int count) {
+        return newsDAO.updateCommentCount(id, count);
+    }
 
 }
