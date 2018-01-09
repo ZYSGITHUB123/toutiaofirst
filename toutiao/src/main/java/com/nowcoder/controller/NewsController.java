@@ -3,6 +3,7 @@ package com.nowcoder.controller;
 import com.nowcoder.aspect.LogAspect;
 import com.nowcoder.model.*;
 import com.nowcoder.service.CommentService;
+import com.nowcoder.service.LikeService;
 import com.nowcoder.service.NewsService;
 import com.nowcoder.service.UserService;
 import com.nowcoder.util.ToutiaoUtil;
@@ -33,12 +34,22 @@ public class NewsController {
     UserService userService;
     @Autowired
     CommentService commentService;
+    @Autowired
+    LikeService likeService;
     private static final Logger logger= LoggerFactory.getLogger(LogAspect.class); //来自log库的log
 
     @RequestMapping(path={"/news/{newsId}"},method = {RequestMethod.GET})
     public String newsDetail(@PathVariable("newsId") int newsId,Model model){
         News news=newsService.getById(newsId);
+
+
         if(news!=null){
+            int localUserId=hostHolder.getUser()!=null?hostHolder.getUser().getId():0;
+            if(localUserId!=0){
+                model.addAttribute("like",likeService.getLikeStatus(localUserId, EntityType.Entity_News,news.getId()));
+            }else{
+                model.addAttribute("like",0);
+            }
             List<Comment> comments=commentService.getCommentsByEntity(news.getId(), EntityType.Entity_News);
             List<ViewObject> commentVOs=new ArrayList<ViewObject>();
             for(Comment comment:comments){

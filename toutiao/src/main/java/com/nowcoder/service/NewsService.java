@@ -44,5 +44,8 @@ public String saveImage(MultipartFile file) throws IOException {
     public int updateCommentCount(int id, int count) {
         return newsDAO.updateCommentCount(id, count);
     }
+    public int updateLikeCount(int id, int count) {
+        return newsDAO.updateLikeCount(id, count);
+    }
 
 }
