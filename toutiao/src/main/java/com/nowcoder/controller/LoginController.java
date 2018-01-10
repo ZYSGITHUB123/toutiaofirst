@@ -1,6 +1,9 @@
 package com.nowcoder.controller;
 
 import com.nowcoder.aspect.LogAspect;
+import com.nowcoder.async.EventModel;
+import com.nowcoder.async.EventProducer;
+import com.nowcoder.async.EventType;
 import com.nowcoder.model.News;
 import com.nowcoder.model.ViewObject;
 import com.nowcoder.service.NewsService;
@@ -25,6 +28,8 @@ public class LoginController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    EventProducer eventProducer;
 
     @RequestMapping(path={"/reg/"},method = {RequestMethod.GET,RequestMethod.POST})
     @ResponseBody       //注意！！包好
@@ -56,8 +61,8 @@ public class LoginController {
     @ResponseBody       //注意！！包好
     public String login(Model model, @RequestParam("username") String username,
                       @RequestParam("password") String password,
-                      @RequestParam(value="rember",defaultValue = "0") int remember
-                      ){
+                      @RequestParam(value="rember",defaultValue = "0") int remember,
+                      HttpServletResponse response ){
         try{
             Map<String,Object> map=userService.login(username,password);
             if (map.containsKey("ticket")) {
@@ -66,6 +71,9 @@ public class LoginController {
                 if(remember>0){
                     cookie.setMaxAge(3600*24*5);          //设置记住的时间
                 }
+                response.addCookie(cookie);
+                eventProducer.fireEvent(new EventModel(EventType.LOGIN).setActorId((int) map.get("userId"))
+                                       .setExt("username",username).setExt("email","ZYS839345426@163.com"));//把事件发出去，不会卡住系统，此后该处就不管了
                 return ToutiaoUtil.getJSONString(0,"登录成功");
             }else{
                 return ToutiaoUtil.getJSONString(1,map);
